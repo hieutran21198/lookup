@@ -2,31 +2,16 @@ local deepcopy = vim.deepcopy
 local deep_extend = function(initial, partial)
 	return vim.tbl_deep_extend("force", initial, partial)
 end
-
-local item_definition = {
-	CMD = "cmd",
-	DESC = "desc",
-	KEYS = "keys",
-	OPTS = "opts",
-	GROUP = "group",
-	KEYWORD = "keyword",
-	REFERENCE_TO = "reference_to",
-}
-
-local opts_definition = {
-	MODE = "mode",
-	BUFFER = "buffer",
-	SILENT = "silent",
-	NOREMAP = "noremap",
-	NOWAIT = "nowait",
-}
+local definition = require("definition")
+local opt_definition = definition.opt
+local item_definition = definition.item
 
 local default_opts = {
-	[opts_definition.MODE] = "n",
-	[opts_definition.BUFFER] = nil,
-	[opts_definition.SILENT] = true,
-	[opts_definition.NOREMAP] = true,
-	[opts_definition.NOWAIT] = true,
+	[opt_definition.MODE] = "n",
+	[opt_definition.BUFFER] = nil,
+	[opt_definition.SILENT] = true,
+	[opt_definition.NOREMAP] = true,
+	[opt_definition.NOWAIT] = true,
 }
 
 local default_cfg = {
@@ -46,8 +31,6 @@ local default_cfg = {
 
 local M = {
 	items = {},
-	item_definition = item_definition,
-	opts_definition = opts_definition,
 
 	cfg = default_cfg,
 }
@@ -92,7 +75,7 @@ M.add_group = function(group)
 		if item.opts == nil then
 			item.opts = opts
 		else
-			if not M.validate_definition(item.opts, opts_definition) then
+			if not M.validate_definition(item.opts, opt_definition) then
 				goto continue
 			end
 		end

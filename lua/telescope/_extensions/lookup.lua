@@ -2,6 +2,9 @@ local deep_extend = function(initial, partial)
 	return vim.tbl_deep_extend("force", initial, partial)
 end
 
+local definition = require("lookup.definition")
+local item_definition = definition.item
+
 local fn = vim.fn
 local api = vim.api
 local schedule = vim.schedule
@@ -41,7 +44,7 @@ local calculate_max_width_in_tbl = function(limit, tbl, key)
 	end
 end
 
-local function look()
+local function start_lookup()
 	if #lookup.items == 0 then
 		if lookup.cfg.strict then
 			error("nothing registered to lookup")
@@ -55,11 +58,8 @@ local function look()
 		local row = {}
 		local component_info = {}
 
-		local desc_width = calculate_max_width_in_tbl(
-			lookup.cfg.max_width[lookup.item_definition.DESC],
-			lookup.items,
-			lookup.item_definition.DESC
-		)
+		local desc_width =
+			calculate_max_width_in_tbl(lookup.cfg.max_width[item_definition.DESC], lookup.items, item_definition.DESC)
 
 		for _, v in ipairs(lookup.cfg.row_elements) do
 			table.insert(row, entry.value[v])
@@ -105,7 +105,7 @@ local function look()
 					return false
 				end
 
-				local cmd = selection.value[lookup.item_definition.CMD]
+				local cmd = selection.value[item_definition.CMD]
 				if type(cmd) == "function" then
 					cmd()
 				else
@@ -141,6 +141,6 @@ end
 return telescope.register_extension({
 	setup = setup,
 	exports = {
-		lookup = require("lookup"),
+		lookup = start_lookup(),
 	},
 })
