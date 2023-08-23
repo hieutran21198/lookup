@@ -2,7 +2,7 @@ local deepcopy = vim.deepcopy
 local deep_extend = function(initial, partial)
 	return vim.tbl_deep_extend("force", initial, partial)
 end
-local definition = require("definition")
+local definition = require("lookup.definition")
 local opt_definition = definition.opt
 local item_definition = definition.item
 
