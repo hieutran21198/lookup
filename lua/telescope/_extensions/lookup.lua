@@ -54,7 +54,6 @@ local function start_lookup()
 	end
 
 	local telescope_prompt_maker = function(entry)
-		require("utils").echo(entry)
 		local row = {}
 		local component_info = {}
 
