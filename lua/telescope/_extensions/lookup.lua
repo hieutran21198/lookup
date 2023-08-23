@@ -141,6 +141,6 @@ end
 return telescope.register_extension({
 	setup = setup,
 	exports = {
-		look = look,
+		lookup = require("lookup"),
 	},
 })
