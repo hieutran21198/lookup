@@ -18,7 +18,7 @@ local action_state = require("telescope.actions.state")
 local entry_display = require("telescope.pickers.entry_display")
 local conf = require("telescope.config").values
 
-local lookup = require("config.telescope-extensions.lookup")
+local lookup = require("lookup")
 
 local function setup(user_cfg)
 	lookup.cfg = deep_extend(lookup.cfg, user_cfg)
